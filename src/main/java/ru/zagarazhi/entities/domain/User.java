@@ -41,4 +41,9 @@ public class User {
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
+
+    @Column(name = "verification_code", length = 64)
+    private String verificationCode;
+    
+    private boolean enabled;
 }

@@ -16,7 +16,9 @@ public interface UserService extends UserDetailsService {
 
     public Optional<User> findByUsername(String username);
 
-    public boolean save(UserRegistrationDto registration);
+    public boolean save(UserRegistrationDto registration, String siteUrl);
 
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
+
+    public boolean verify(String verificationCode);
 }

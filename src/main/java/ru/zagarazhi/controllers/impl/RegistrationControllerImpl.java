@@ -1,5 +1,6 @@
 package ru.zagarazhi.controllers.impl;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,14 +31,19 @@ public class RegistrationControllerImpl implements RegistrationController{
     }
 
     @Override
-    public String createUser(@ModelAttribute("userForm") @Valid UserRegistrationDto userDto, BindingResult bindingResult, Model model) {
+    public String createUser(@ModelAttribute("userForm") @Valid UserRegistrationDto userDto, BindingResult bindingResult, Model model, HttpServletRequest request) {
         if(bindingResult.hasErrors()) {
             return "registration";
         }
-        if(!userService.save(userDto)) {
+        if(!userService.save(userDto, getSiteURL(request))) {
             model.addAttribute("usernameError", "Пользователь с таким именем уже существует");
             return "registration";
         }
-        return "redirect:/game";
+        return "/registration_success";
     }
+
+    private String getSiteURL(HttpServletRequest request) {
+        String siteURL = request.getRequestURL().toString();
+        return siteURL.replace(request.getServletPath(), "");
+    }  
 }

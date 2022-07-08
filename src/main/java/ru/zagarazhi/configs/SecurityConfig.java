@@ -25,7 +25,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
             .authorizeRequests()
             .antMatchers(
-                "/registration**",
+                "/registration/**",
+                "/registration_success/**",
+                "/verify**",
                 "/js/**",
                 "/css/**",
                 "/h2-console/**",
@@ -46,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .permitAll();
             //Необходимо для конcоли H2
             http.csrf().disable();
-            http.headers().frameOptions().disable(); 
+            http.headers().frameOptions().disable();
     }
 
     @Bean

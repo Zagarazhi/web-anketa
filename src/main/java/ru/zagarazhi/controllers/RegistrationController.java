@@ -1,5 +1,6 @@
 package ru.zagarazhi.controllers;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.ui.Model;
@@ -18,5 +19,5 @@ public interface RegistrationController {
     public String registration(Model model);
 
     @PostMapping
-    public String createUser(@ModelAttribute("userForm") @Valid UserRegistrationDto userDto, BindingResult bindingResult, Model model);
+    public String createUser(@ModelAttribute("userForm") @Valid UserRegistrationDto userDto, BindingResult bindingResult, Model model, HttpServletRequest request);
 }

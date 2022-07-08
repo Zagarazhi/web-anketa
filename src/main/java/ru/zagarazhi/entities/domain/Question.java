@@ -22,6 +22,7 @@ public class Question {
     @Column(length = 32)
     private String correctAnswer;
 
+    @ElementCollection
     private List<String> options;
 
     @ManyToOne(fetch = FetchType.EAGER)
