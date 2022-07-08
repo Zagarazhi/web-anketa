@@ -21,4 +21,7 @@ public class Test {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "test")
     private List<Question> questions;
+
+    @Column
+    private int maxAttempt;
 }

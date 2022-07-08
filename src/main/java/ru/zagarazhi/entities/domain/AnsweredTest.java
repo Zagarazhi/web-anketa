@@ -16,9 +16,18 @@ public class AnsweredTest {
     @Column(name = "answered_test_id")
     private Long id;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    List<Answer> answers;
+    @OneToOne
+    private Test test;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "answeredTest")
+    private List<Answer> answers;
 
     @OneToOne
     private User user;
+
+    @Column
+    private int attempt;
+
+    @Column
+    private Long rating;
 }

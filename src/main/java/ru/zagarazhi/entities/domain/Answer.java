@@ -22,4 +22,7 @@ public class Answer {
 
     @ManyToOne(fetch = FetchType.EAGER)
     private AnsweredTest answeredTest;
+
+    @Column
+    private int rating; 
 }

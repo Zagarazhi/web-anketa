@@ -17,7 +17,9 @@ public class AdminControllerImpl implements AdminController {
 
     @Override
     public String save(TestDto testDto) throws JsonParseException {
-        testService.save(testDto);
-        return "/";
+        if(testService.save(testDto)){
+            return "save_success";
+        }
+        return "save_fail";
     }
 }

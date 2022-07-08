@@ -1,7 +1,5 @@
 package ru.zagarazhi.entities.dto;
 
-import java.util.stream.Collectors;
-
 import javax.validation.constraints.NotEmpty;
 
 import lombok.Data;
@@ -17,11 +15,15 @@ public class TestDto {
     private String name;
 
     @NotEmpty
+    private int maxAttempt;
+
+    @NotEmpty
     private QuestionDto[] questions;
 
     public TestDto(Test test) {
         this.id = test.getId();
         this.name = test.getName();
-        this.questions = (@NotEmpty QuestionDto[]) test.getQuestions().stream().map(q -> new QuestionDto(q)).collect(Collectors.toList()).toArray();
+        this.maxAttempt = test.getMaxAttempt();
+        this.questions = (@NotEmpty QuestionDto[]) test.getQuestions().stream().map(q -> new QuestionDto(q)).toArray();
     }
 }

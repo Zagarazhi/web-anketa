@@ -11,10 +11,17 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import ru.zagarazhi.entities.domain.Answer;
+import ru.zagarazhi.entities.domain.AnsweredTest;
 import ru.zagarazhi.entities.domain.Question;
 import ru.zagarazhi.entities.domain.Test;
 import ru.zagarazhi.entities.domain.User;
+import ru.zagarazhi.entities.dto.AnswerDto;
+import ru.zagarazhi.entities.dto.AnsweredTestDto;
 import ru.zagarazhi.entities.dto.TestDto;
+import ru.zagarazhi.entities.dto.TestName;
+import ru.zagarazhi.repositories.AnswerRepository;
+import ru.zagarazhi.repositories.AnsweredTestRepository;
 import ru.zagarazhi.repositories.QuestionRepository;
 import ru.zagarazhi.repositories.TestRepository;
 import ru.zagarazhi.repositories.UserRepository;
@@ -31,6 +38,12 @@ public class TestServiceImpl implements TestService {
 
     @Autowired
     private QuestionRepository questionRepository;
+
+    @Autowired
+    private AnswerRepository answerRepository;
+
+    @Autowired
+    private AnsweredTestRepository answeredTestRepository;
 
     @Override
     public boolean save(TestDto testDto) {
@@ -56,7 +69,11 @@ public class TestServiceImpl implements TestService {
     @Override
     public TestDto findTestById(long id) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userRepository.findByUsername(auth.getName()).get();
+        Optional<User> oUser = userRepository.findByUsername(auth.getName());
+        if(oUser.isEmpty()){
+            return null;
+        }
+        User user = oUser.get();
         if(!user.isEnabled()){
             return null;
         }
@@ -65,5 +82,73 @@ public class TestServiceImpl implements TestService {
             return null;
         }
         return new TestDto(oTest.get());
+    }
+
+    @Override
+    public List<TestName> names() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> oUser = userRepository.findByUsername(auth.getName());
+        if(oUser.isEmpty()){
+            return null;
+        }
+        User user = oUser.get();
+        if(!user.isEnabled()){
+            return null;
+        }
+        List<Test> tests = testRepository.findAll();
+        return tests.stream().map(t -> new TestName(t)).collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean saveAnswers(AnsweredTestDto answeredTestDto) {
+        /*
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> oUser = userRepository.findByUsername(auth.getName());
+        if(oUser.isEmpty()){
+            return false;
+        }
+        User user = oUser.get();
+        if(!user.isEnabled()){
+            return false;
+        }
+        */
+        long l = 1;
+        User user = userRepository.findById(l).get();
+
+        Optional<Test> oTest = testRepository.findById(answeredTestDto.getTestId());
+        if(oTest.isEmpty()){
+            return false;
+        }
+        Test test = oTest.get();
+        int attempt = 0;
+        for(AnsweredTest answeredTest : answeredTestRepository.findByTest(test)) {
+            if(attempt < answeredTest.getAttempt()){
+                attempt = answeredTest.getAttempt();
+            }
+        }
+        AnsweredTest answeredTest = new AnsweredTest();
+        answeredTest.setTest(test);
+        answeredTest.setUser(user);
+        answeredTest.setAttempt(attempt + 1);
+        
+        List<Answer> answers = new ArrayList<>();
+        int rating = 0, tempRating = 0;
+        for(AnswerDto answerDto : answeredTestDto.getAnswers()){
+            Answer answer = new Answer();
+            answer.setAnswer(answerDto.getAnswer());
+            answer.setQuestion(questionRepository.getReferenceById(answerDto.getQuestionId()));
+            tempRating = answer.getQuestion().getCorrectAnswer().equals(answer.getAnswer()) ? 1 : -1;
+            rating += tempRating;
+            answer.setRating(tempRating);
+            answers.add(answer);
+        }
+
+        answeredTest.setAnswers(answers);
+        answeredTest.setRating((answeredTest.getRating() == null)? rating : answeredTest.getRating() + rating);
+        answeredTestRepository.save(answeredTest);
+
+        answers.stream().forEach(t -> t.setAnsweredTest(answeredTest));
+        answerRepository.saveAll(answers);
+        return true;
     }
 }
