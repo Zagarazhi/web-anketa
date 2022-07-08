@@ -16,6 +16,9 @@ public class Test {
     @Column(name = "question_id")
     private Long id;
 
+    @Column(length = 32)
+    private String name;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "test")
     private List<Question> questions;
 }
