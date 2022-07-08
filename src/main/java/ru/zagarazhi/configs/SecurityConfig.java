@@ -22,19 +22,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        /*
+        
         http
             .authorizeRequests()
             .antMatchers(
-                "/registration/**",
-                "/verify**",
+                "/registration**",
+                "/verify/**",
                 "/js/**",
                 "/css/**",
                 "/img/**").permitAll()
-            .antMatchers("/h2-console/**")
+            .antMatchers("/h2-console/**",
+                "/admin/**",
+                "api/v1/admin/**")
             .hasRole("ADMIN")
-            .antMatchers("/**")
-            .hasAnyRole("USER", "ADMIN")
             .anyRequest().authenticated()
             .and()
             .formLogin()
@@ -45,12 +45,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .invalidateHttpSession(true)
             .clearAuthentication(true)
             .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-            .logoutSuccessUrl("/login")
+            .logoutSuccessUrl("/login?logout")
             .permitAll();
-            */
-            //Необходимо для конcоли H2
+            //Необходимо для конcоли H2*/
             http.csrf().disable();
-            http.headers().frameOptions().disable();
+            http.headers().frameOptions().disable(); 
     }
 
     @Bean
