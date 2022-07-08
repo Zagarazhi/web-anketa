@@ -27,4 +27,7 @@ public class Question {
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Test test;
+
+    @Column
+    private boolean multipleChoice;
 }

@@ -59,6 +59,7 @@ public class TestServiceImpl implements TestService {
 
         test.setName(testDto.getName());
         test.setQuestions(questions);
+        test.setMaxAttempt(testDto.getMaxAttempt());
         testRepository.save(test);
 
         questions.stream().forEach(q -> q.setTest(test));
@@ -116,16 +117,15 @@ public class TestServiceImpl implements TestService {
         User user = userRepository.findById(l).get();
 
         Optional<Test> oTest = testRepository.findById(answeredTestDto.getTestId());
-        if(oTest.isEmpty()){
-            return false;
-        }
+        if(oTest.isEmpty()) return false;
+
         Test test = oTest.get();
         int attempt = 0;
         for(AnsweredTest answeredTest : answeredTestRepository.findByTest(test)) {
-            if(attempt < answeredTest.getAttempt()){
-                attempt = answeredTest.getAttempt();
-            }
+            if(attempt < answeredTest.getAttempt()) attempt = answeredTest.getAttempt();
         }
+        if(attempt >= test.getMaxAttempt()) return false;
+
         AnsweredTest answeredTest = new AnsweredTest();
         answeredTest.setTest(test);
         answeredTest.setUser(user);
@@ -137,11 +137,13 @@ public class TestServiceImpl implements TestService {
             Answer answer = new Answer();
             answer.setAnswer(answerDto.getAnswer());
             answer.setQuestion(questionRepository.getReferenceById(answerDto.getQuestionId()));
-            tempRating = answer.getQuestion().getCorrectAnswer().equals(answer.getAnswer()) ? 1 : -1;
+            tempRating = countRating(answer, answer.getQuestion());
             rating += tempRating;
             answer.setRating(tempRating);
             answers.add(answer);
         }
+
+        if(rating < 0) rating = 0;
 
         answeredTest.setAnswers(answers);
         answeredTest.setRating((answeredTest.getRating() == null)? rating : answeredTest.getRating() + rating);
@@ -150,5 +152,22 @@ public class TestServiceImpl implements TestService {
         answers.stream().forEach(t -> t.setAnsweredTest(answeredTest));
         answerRepository.saveAll(answers);
         return true;
+    }
+
+    private int countRating(Answer answer, Question question) {
+        if(question.isMultipleChoice()){
+            String[] temp = answer.getAnswer().split("/");
+            int count = 0;
+            for(String s : temp) {
+                if(question.getCorrectAnswer().contains(s)){
+                    count++;
+                } else {
+                    count --;
+                }
+            }
+            return count;
+        } else {
+            return answer.getAnswer().equals(question.getCorrectAnswer()) ? 1 : -1;
+        }
     }
 }

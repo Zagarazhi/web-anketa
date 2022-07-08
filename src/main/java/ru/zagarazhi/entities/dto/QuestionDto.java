@@ -22,10 +22,14 @@ public class QuestionDto {
     @NotEmpty
     private String[] options;
 
+    @NotEmpty
+    private boolean multipleChoice;
+
     public QuestionDto(Question question) {
         this.id = question.getId();
         this.text = question.getText();
         this.correctAnswer = question.getCorrectAnswer();
+        this.multipleChoice = question.isMultipleChoice();
         this.options = (@NotEmpty String[]) question.getOptions().toArray();
     }
 
@@ -34,6 +38,7 @@ public class QuestionDto {
         question.setText(this.text);
         question.setCorrectAnswer(this.correctAnswer);
         question.setOptions(Arrays.asList(this.options));
+        question.setMultipleChoice(this.multipleChoice);
         return question;
     }
 }
