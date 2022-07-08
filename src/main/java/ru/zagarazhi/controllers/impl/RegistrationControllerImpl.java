@@ -33,11 +33,11 @@ public class RegistrationControllerImpl implements RegistrationController{
     @Override
     public String createUser(@ModelAttribute("userForm") @Valid UserRegistrationDto userDto, BindingResult bindingResult, Model model, HttpServletRequest request) {
         if(bindingResult.hasErrors()) {
-            return "registration";
+            return "registration_fail";
         }
         if(!userService.save(userDto, getSiteURL(request))) {
             model.addAttribute("usernameError", "Пользователь с таким именем уже существует");
-            return "registration";
+            return "registration_fail";
         }
         return "/registration_success";
     }
