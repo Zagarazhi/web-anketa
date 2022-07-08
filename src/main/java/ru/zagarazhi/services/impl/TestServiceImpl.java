@@ -47,12 +47,9 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public boolean save(TestDto testDto) {
-        //Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        //User user = userRepository.findByUsername(auth.getName()).get();
-        //if(!user.isEnabled()){
-            //return false;
-        //}
-        //Test test = testDto.getTest();
+        if(authCheck() == null) {
+            return false;
+        }
         Test test = new Test();
         List<Question> questions = new ArrayList<>();
         questions = testDto.getQuestions().stream().map(q -> q.getQuestion()).toList();
@@ -69,13 +66,7 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public TestDto findTestById(long id) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Optional<User> oUser = userRepository.findByUsername(auth.getName());
-        if(oUser.isEmpty()){
-            return null;
-        }
-        User user = oUser.get();
-        if(!user.isEnabled()){
+        if(authCheck() == null) {
             return null;
         }
         Optional<Test> oTest = testRepository.findById(id);
@@ -87,19 +78,10 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public ResultsDto results(long id) {
-        /*
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Optional<User> oUser = userRepository.findByUsername(auth.getName());
-        if(oUser.isEmpty()){
-            return false;
+        User user = authCheck();
+        if(user == null) {
+            return null;
         }
-        User user = oUser.get();
-        if(!user.isEnabled()){
-            return false;
-        }
-        */
-        long l = 1;
-        User user = userRepository.findById(l).get();
         Optional<Test> oTest = testRepository.findById(id);
         if(oTest.isEmpty()) return null;
         Test test = oTest.get();
@@ -113,19 +95,10 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public ResultsDto results(long id, long userId) {
-        /*
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Optional<User> oUser = userRepository.findByUsername(auth.getName());
-        if(oUser.isEmpty()){
-            return false;
+        User user = authCheck();
+        if(user == null) {
+            return null;
         }
-        User user = oUser.get();
-        if(!user.isEnabled()){
-            return false;
-        }
-        */
-        long l = 1;
-        User user = userRepository.findById(l).get();
         Optional<Test> oTest = testRepository.findById(id);
         if(oTest.isEmpty()) return null;
         Test test = oTest.get();
@@ -139,13 +112,8 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public List<TestName> names() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Optional<User> oUser = userRepository.findByUsername(auth.getName());
-        if(oUser.isEmpty()){
-            return null;
-        }
-        User user = oUser.get();
-        if(!user.isEnabled()){
+        User user = authCheck();
+        if(user == null) {
             return null;
         }
         List<Test> tests = testRepository.findAll();
@@ -154,19 +122,10 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public boolean saveAnswers(AnsweredTestDto answeredTestDto) {
-        /*
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Optional<User> oUser = userRepository.findByUsername(auth.getName());
-        if(oUser.isEmpty()){
+        User user = authCheck();
+        if(user == null) {
             return false;
         }
-        User user = oUser.get();
-        if(!user.isEnabled()){
-            return false;
-        }
-        */
-        long l = 1;
-        User user = userRepository.findById(l).get();
 
         Optional<Test> oTest = testRepository.findById(answeredTestDto.getTestId());
         if(oTest.isEmpty()) return false;
@@ -227,5 +186,18 @@ public class TestServiceImpl implements TestService {
             if(attempt < answeredTest.getAttempt()) attempt = answeredTest.getAttempt();
         }
         return attempt;
+    }
+
+    private User authCheck(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> oUser = userRepository.findByUsername(auth.getName());
+        if(oUser.isEmpty()){
+            return null;
+        }
+        User user = oUser.get();
+        if(!user.isEnabled()){
+            return null;
+        }
+        return user;
     }
 }

@@ -83,8 +83,14 @@ public class UserServiceImpl implements UserService {
             throw new UsernameNotFoundException(String.format("User '%s' not found", username));
         }
         User user = oUser.get();
-        return new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(),
-                mapRolesToAuthorities(user.getRoles()));
+        return new org.springframework.security.core.userdetails.User(
+            user.getUsername(),
+            user.getPassword(),
+            user.isEnabled(),
+            true,
+            true,
+            true,
+            mapRolesToAuthorities(user.getRoles()));
     }
 
     @Override
