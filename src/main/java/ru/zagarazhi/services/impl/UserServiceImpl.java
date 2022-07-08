@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -24,6 +25,8 @@ import org.springframework.stereotype.Service;
 
 import net.bytebuddy.utility.RandomString;
 import ru.zagarazhi.entities.domain.User;
+import ru.zagarazhi.entities.dto.AdminUserInfo;
+import ru.zagarazhi.entities.dto.UserInfo;
 import ru.zagarazhi.entities.dto.UserRegistrationDto;
 import ru.zagarazhi.entities.enums.Role;
 import ru.zagarazhi.repositories.UserRepository;
@@ -132,5 +135,15 @@ public class UserServiceImpl implements UserService {
              
             return true;
         }
+    }
+
+    @Override
+    public List<UserInfo> findAll() {
+        return userRepository.findAll().stream().map(u -> new UserInfo(u)).toList();
+    }
+
+    @Override
+    public List<AdminUserInfo> adminFindAll() {
+        return userRepository.findAll().stream().map(u -> new AdminUserInfo(u)).toList();
     }
 }

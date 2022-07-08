@@ -1,6 +1,6 @@
 package ru.zagarazhi.entities.dto;
 
-import java.util.Arrays;
+import java.util.List;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -20,7 +20,7 @@ public class QuestionDto {
     private String correctAnswer;
 
     @NotEmpty
-    private String[] options;
+    private List<String> options;
 
     @NotEmpty
     private boolean multipleChoice;
@@ -30,14 +30,14 @@ public class QuestionDto {
         this.text = question.getText();
         this.correctAnswer = question.getCorrectAnswer();
         this.multipleChoice = question.isMultipleChoice();
-        this.options = (@NotEmpty String[]) question.getOptions().toArray();
+        this.options = question.getOptions();
     }
 
     public Question getQuestion(){
         Question question = new Question();
         question.setText(this.text);
         question.setCorrectAnswer(this.correctAnswer);
-        question.setOptions(Arrays.asList(this.options));
+        question.setOptions((this.options));
         question.setMultipleChoice(this.multipleChoice);
         return question;
     }

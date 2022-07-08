@@ -1,5 +1,7 @@
 package ru.zagarazhi.entities.dto;
 
+import java.util.List;
+
 import javax.validation.constraints.NotEmpty;
 
 import lombok.Data;
@@ -14,7 +16,7 @@ public class AnsweredTestDto {
     private Long testId;
 
     @NotEmpty
-    private AnswerDto[] answers;
+    private List<AnswerDto> answers;
 
     private int attempt;
 
@@ -22,7 +24,7 @@ public class AnsweredTestDto {
 
     public AnsweredTestDto(AnsweredTest answeredTest) {
         this.testId = answeredTest.getTest().getId();
-        this.answers = (@NotEmpty AnswerDto[]) answeredTest.getAnswers().stream().map(t -> new AnswerDto(t)).toArray();
+        this.answers = answeredTest.getAnswers().stream().map(t -> new AnswerDto(t)).toList();
         this.attempt = answeredTest.getAttempt();
         this.rating = answeredTest.getRating();
     }

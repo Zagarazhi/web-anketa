@@ -11,6 +11,7 @@ public interface TestService {
     public boolean save(TestDto testDto);
     public List<TestName> names();
     public ResultsDto results(long id);
+    public ResultsDto results(long id, long userId);
     public TestDto findTestById(long id);
     public boolean saveAnswers(AnsweredTestDto answeredTestDto);
 }

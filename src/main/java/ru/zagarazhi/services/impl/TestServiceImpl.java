@@ -1,7 +1,6 @@
 package ru.zagarazhi.services.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -56,7 +55,7 @@ public class TestServiceImpl implements TestService {
         //Test test = testDto.getTest();
         Test test = new Test();
         List<Question> questions = new ArrayList<>();
-        questions = Arrays.stream(testDto.getQuestions()).map(q -> q.getQuestion()).collect(Collectors.toList());
+        questions = testDto.getQuestions().stream().map(q -> q.getQuestion()).toList();
 
         test.setName(testDto.getName());
         test.setQuestions(questions);
@@ -88,6 +87,32 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public ResultsDto results(long id) {
+        /*
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> oUser = userRepository.findByUsername(auth.getName());
+        if(oUser.isEmpty()){
+            return false;
+        }
+        User user = oUser.get();
+        if(!user.isEnabled()){
+            return false;
+        }
+        */
+        long l = 1;
+        User user = userRepository.findById(l).get();
+        Optional<Test> oTest = testRepository.findById(id);
+        if(oTest.isEmpty()) return null;
+        Test test = oTest.get();
+        AnsweredTest max = null;
+        for(AnsweredTest answeredTest : answeredTestRepository.findByTestAndUser(test, user)) {
+            if(max == null || max.getAttempt() < answeredTest.getAttempt()) max = answeredTest;
+        }
+        if(max == null) return null;
+        return new ResultsDto(max);
+    }
+
+    @Override
+    public ResultsDto results(long id, long userId) {
         /*
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> oUser = userRepository.findByUsername(auth.getName());
