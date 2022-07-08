@@ -18,6 +18,7 @@ import ru.zagarazhi.entities.domain.Test;
 import ru.zagarazhi.entities.domain.User;
 import ru.zagarazhi.entities.dto.AnswerDto;
 import ru.zagarazhi.entities.dto.AnsweredTestDto;
+import ru.zagarazhi.entities.dto.ResultsDto;
 import ru.zagarazhi.entities.dto.TestDto;
 import ru.zagarazhi.entities.dto.TestName;
 import ru.zagarazhi.repositories.AnswerRepository;
@@ -86,6 +87,32 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
+    public ResultsDto results(long id) {
+        /*
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> oUser = userRepository.findByUsername(auth.getName());
+        if(oUser.isEmpty()){
+            return false;
+        }
+        User user = oUser.get();
+        if(!user.isEnabled()){
+            return false;
+        }
+        */
+        long l = 1;
+        User user = userRepository.findById(l).get();
+        Optional<Test> oTest = testRepository.findById(id);
+        if(oTest.isEmpty()) return null;
+        Test test = oTest.get();
+        AnsweredTest max = null;
+        for(AnsweredTest answeredTest : answeredTestRepository.findByTestAndUser(test, user)) {
+            if(max == null || max.getAttempt() < answeredTest.getAttempt()) max = answeredTest;
+        }
+        if(max == null) return null;
+        return new ResultsDto(max);
+    }
+
+    @Override
     public List<TestName> names() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> oUser = userRepository.findByUsername(auth.getName());
@@ -118,13 +145,9 @@ public class TestServiceImpl implements TestService {
 
         Optional<Test> oTest = testRepository.findById(answeredTestDto.getTestId());
         if(oTest.isEmpty()) return false;
-
         Test test = oTest.get();
-        int attempt = 0;
-        for(AnsweredTest answeredTest : answeredTestRepository.findByTest(test)) {
-            if(attempt < answeredTest.getAttempt()) attempt = answeredTest.getAttempt();
-        }
-        if(attempt >= test.getMaxAttempt()) return false;
+        int attempt = getMaxAttempt(test, user) + 1;
+        if(attempt > test.getMaxAttempt()) return false;
 
         AnsweredTest answeredTest = new AnsweredTest();
         answeredTest.setTest(test);
@@ -151,6 +174,8 @@ public class TestServiceImpl implements TestService {
 
         answers.stream().forEach(t -> t.setAnsweredTest(answeredTest));
         answerRepository.saveAll(answers);
+        user.setRating((user.getRating() == null) ? rating : user.getRating() + rating);
+        userRepository.save(user);
         return true;
     }
 
@@ -169,5 +194,13 @@ public class TestServiceImpl implements TestService {
         } else {
             return answer.getAnswer().equals(question.getCorrectAnswer()) ? 1 : -1;
         }
+    }
+
+    private int getMaxAttempt(Test test, User user){
+        int attempt = 0;
+        for(AnsweredTest answeredTest : answeredTestRepository.findByTestAndUser(test, user)) {
+            if(attempt < answeredTest.getAttempt()) attempt = answeredTest.getAttempt();
+        }
+        return attempt;
     }
 }

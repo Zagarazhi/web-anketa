@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ru.zagarazhi.controllers.TestController;
 import ru.zagarazhi.entities.dto.AnsweredTestDto;
+import ru.zagarazhi.entities.dto.ResultsDto;
 import ru.zagarazhi.entities.dto.TestName;
 import ru.zagarazhi.services.TestService;
 
@@ -33,5 +34,14 @@ public class TestControllerImpl implements TestController {
     public String test(@PathVariable Long id, @RequestBody AnsweredTestDto answeredTestDto){
         testService.saveAnswers(answeredTestDto);
         return "/";
+    }
+
+    @Override
+    public ResponseEntity<ResultsDto> results(@PathVariable long id) {
+        ResultsDto resultsDto = testService.results(id);
+        if(resultsDto == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return ResponseEntity.ok(resultsDto);
     }
 }
