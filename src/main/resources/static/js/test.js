@@ -41,7 +41,7 @@ test.onload = function() {
     } else {
         let res = document.getElementById('test');
         let newP = document.createElement('p');
-        newP.innerHTML =  `Тест недоступен. Возможно ваши попытки закончились: <a href="/results?id=${id}">лучший результат</a>`;
+        newP.innerHTML =  `Тест недоступен. Возможно ваши попытки закончились: <a href="/results?id=${id}">Результат последней попытки</a>`;
         res.appendChild(newP);
     }
 }

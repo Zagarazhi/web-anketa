@@ -25,4 +25,10 @@ public interface MainController {
 
     @GetMapping("/admin/create")
     public String create();
+
+    @GetMapping("/admin/results")
+    public String adminResults(@Param("uId") long uId, @Param("id") long id);
+
+    @GetMapping("/admin/users")
+    public String adminUsers();
 }

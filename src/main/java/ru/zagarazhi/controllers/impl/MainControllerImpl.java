@@ -52,4 +52,14 @@ public class MainControllerImpl implements MainController{
     public String create(){
         return "admin/create";
     }
+
+    @Override
+    public String adminResults(@Param("uId") long uId, @Param("id") long id){
+        return "admin/results";
+    }
+
+    @Override
+    public String adminUsers() {
+        return "admin/users";
+    }
 }

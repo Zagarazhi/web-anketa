@@ -13,7 +13,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-item nav-link active" href="#">Пользователи<span class="sr-only">(current)</span></a>
+        <a class="nav-item nav-link active" href="/admin/users">Пользователи</a>
         <a class="nav-item nav-link" href="/tests">Тесты</a>
         <a class="nav-item nav-link" href="/create-test">Создать тест</a>
       </div>
@@ -22,20 +22,19 @@
 <body>
     <div class="container">
         <div class="row m-1 p-1">
-            <div class="col">
+            <div class="col" id="info">
                 <div style="overflow: auto;">
-                    <h2 class="top-name center-block text-center">Пользователи</h2>
+                    <h2 class="top-name center-block text-center">Результат пользователя</h2>
                     <table class="table table-striped">
                         <thead class="thead">
                         <tr>
                             <th scope="col">№</th>
-                            <th scope="col">Имя</th>
-                            <th scope="col">Рейтинг</th>
-                            <th scope="col">Почта</th>
-                            <th scope="col">Результаты последнего прохождения</th>
+                            <th scope="col">Ответ пользователя</th>
+                            <th scope="col">Баллы</th>
+                            <th scope="col">Правильный ответ</th>
                         </tr>
                         </thead>
-                        <tbody id="rating">
+                        <tbody id="results">
 
                         </tbody>
                     </table>
@@ -43,6 +42,6 @@
             </div>
         </div>
     </div>
-    <script src="/resources/js/adminUsers.js"></script>
+    <script src="/resources/js/adminResults.js"></script>
 </body>
 </html>
