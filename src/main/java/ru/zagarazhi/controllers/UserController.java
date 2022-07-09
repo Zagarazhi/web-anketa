@@ -8,8 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ru.zagarazhi.entities.dto.UserInfo;
 
-@RequestMapping("api/v1")
+@RequestMapping("/api/v1")
 public interface UserController {
     @GetMapping("/users")
     public ResponseEntity<List<UserInfo>> findAll();
+
+    @GetMapping("/info")
+    public ResponseEntity<UserInfo> info();
 }

@@ -33,7 +33,7 @@ public class TestControllerImpl implements TestController {
     @Override
     public String test(@PathVariable Long id, @RequestBody AnsweredTestDto answeredTestDto){
         testService.saveAnswers(answeredTestDto);
-        return "/";
+        return "/tests";
     }
 
     @Override

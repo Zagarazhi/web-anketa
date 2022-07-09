@@ -16,8 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -145,11 +147,34 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserInfo> findAll() {
-        return userRepository.findAll().stream().map(u -> new UserInfo(u)).toList();
+        return userRepository
+                            .findAll()
+                            .stream()
+                            .sorted((u1, u2) -> u2.getRating().compareTo(u1.getRating()))
+                            .map(u -> new UserInfo(u))
+                            .toList();
     }
 
     @Override
     public List<AdminUserInfo> adminFindAll() {
-        return userRepository.findAll().stream().map(u -> new AdminUserInfo(u)).toList();
+        return userRepository
+                            .findAll()
+                            .stream()
+                            .map(u -> new AdminUserInfo(u))
+                            .toList();
+    }
+
+    @Override
+    public UserInfo info() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> oUser = userRepository.findByUsername(auth.getName());
+        if(oUser.isEmpty()){
+            return null;
+        }
+        User user = oUser.get();
+        if(!user.isEnabled()){
+            return null;
+        }
+        return new UserInfo(user);
     }
 }

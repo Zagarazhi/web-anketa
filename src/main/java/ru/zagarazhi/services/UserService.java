@@ -28,4 +28,6 @@ public interface UserService extends UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
 
     public boolean verify(String verificationCode);
+
+    public UserInfo info();
 }

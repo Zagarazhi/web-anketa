@@ -15,7 +15,7 @@ import ru.zagarazhi.entities.dto.AdminUserInfo;
 import ru.zagarazhi.entities.dto.ResultsDto;
 import ru.zagarazhi.entities.dto.TestDto;
 
-@RequestMapping("api/v1/admin")
+@RequestMapping("/api/v1/admin")
 public interface AdminController {
     
     @PostMapping("/save")

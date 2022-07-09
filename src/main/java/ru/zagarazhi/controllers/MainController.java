@@ -11,9 +11,9 @@ public interface MainController {
     @GetMapping("/login")
     public String login(Model model);
 
-    @GetMapping("/login_fail")
-    public String loginFail(Model model);
+    @GetMapping("/tests")
+    public String tests();
 
-    @GetMapping("/")
-    public String root(Model model);
+    @GetMapping("/users")
+    public String users();
 }

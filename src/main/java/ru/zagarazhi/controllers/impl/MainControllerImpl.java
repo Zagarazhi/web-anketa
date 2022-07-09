@@ -29,12 +29,12 @@ public class MainControllerImpl implements MainController{
     }
 
     @Override
-    public String loginFail(Model model){
-        return "login_fail";
+    public String tests() {
+        return "tests";
     }
 
     @Override
-    public String root(Model model) {
-        return "index";
+    public String users() {
+        return "users";
     }
 }

@@ -13,7 +13,7 @@ import ru.zagarazhi.entities.dto.AnsweredTestDto;
 import ru.zagarazhi.entities.dto.ResultsDto;
 import ru.zagarazhi.entities.dto.TestName;
 
-@RequestMapping("api/v1")
+@RequestMapping("/api/v1")
 public interface TestController {
     @GetMapping("/tests")
     public ResponseEntity<List<TestName>> names();

@@ -8,7 +8,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import ru.zagarazhi.services.UserService;
 
@@ -22,34 +21,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        
         http
+            .csrf()
+                .disable()
             .authorizeRequests()
-            .antMatchers(
-                "/registration**",
-                "/verify/**",
-                "/js/**",
-                "/css/**",
-                "/img/**").permitAll()
-            .antMatchers("/h2-console/**",
-                "/admin/**",
-                "api/v1/admin/**")
-            .hasRole("ADMIN")
+                //Доступ только для не зарегистрированных пользователей
+                .antMatchers("/registration").not().fullyAuthenticated()
+                //Доступ только для пользователей с ролью Администратор
+                .antMatchers("/admin/**", "/api/v1/admin/**", "/h2-console/**").hasRole("ADMIN")
+                .antMatchers("/api/v1/**", "/users/**").hasRole("USER")
+                //Доступ разрешен всем пользователей
+                .antMatchers("/js/**", "/css/**").permitAll()
+            //Все остальные страницы требуют аутентификации
             .anyRequest().authenticated()
             .and()
-            .formLogin()
-            .loginPage("/login")
-            .permitAll()
+                //Настройка для входа в систему
+                .formLogin()
+                .loginPage("/login")
+                //Перенарпавление на главную страницу после успешного входа
+                .defaultSuccessUrl("/tests")
+                .permitAll()
             .and()
-            .logout()
-            .invalidateHttpSession(true)
-            .clearAuthentication(true)
-            .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-            .logoutSuccessUrl("/login?logout")
-            .permitAll();
-            //Необходимо для конcоли H2*/
-            http.csrf().disable();
-            http.headers().frameOptions().disable(); 
+                .logout()
+                .permitAll()
+                .logoutSuccessUrl("/login");
     }
 
     @Bean
