@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.zagarazhi.controllers.TestController;
 import ru.zagarazhi.entities.dto.AnsweredTestDto;
 import ru.zagarazhi.entities.dto.ResultsDto;
+import ru.zagarazhi.entities.dto.TestDto;
 import ru.zagarazhi.entities.dto.TestName;
 import ru.zagarazhi.services.TestService;
 
@@ -43,5 +44,14 @@ public class TestControllerImpl implements TestController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
         return ResponseEntity.ok(resultsDto);
+    }
+
+    @Override
+    public ResponseEntity<TestDto> test(@PathVariable long id) {
+        TestDto test = testService.findTestByIdNoAnswers(id);
+        if(test == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+        }
+        return ResponseEntity.ok(test);
     }
 }

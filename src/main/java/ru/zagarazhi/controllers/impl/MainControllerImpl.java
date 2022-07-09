@@ -29,8 +29,18 @@ public class MainControllerImpl implements MainController{
     }
 
     @Override
+    public String test(@Param("id") long id) {
+        return "test";
+    }
+
+    @Override
     public String tests() {
         return "tests";
+    }
+
+    @Override
+    public String results(@Param("id") long id){
+        return "results";
     }
 
     @Override

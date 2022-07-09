@@ -14,6 +14,12 @@ public interface MainController {
     @GetMapping("/tests")
     public String tests();
 
+    @GetMapping("/test")
+    public String test(@Param("id") long id);
+
+    @GetMapping("/results")
+    public String results(@Param("id") long id);
+
     @GetMapping("/users")
     public String users();
 }

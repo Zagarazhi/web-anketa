@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand">Навигация</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-item nav-link active" href="/users">Рейтинг</a>
+          <a class="nav-item nav-link" href="#">Тесты<span class="sr-only">(current)</span></a>
+        </div>
+      </div>
+  </nav>
+<body>
+    <div class="container">
+        <div class="row m-1 p-1">
+            <div class="col">
+                <div style="overflow: auto;">
+                    <h2 class="top-name center-block text-center">Тесты</h2>
+                    <table class="table table-striped">
+                        <thead class="thead">
+                        <tr>
+                            <th scope="col">№</th>
+                            <th scope="col">Название</th>
+                        </tr>
+                        </thead>
+                        <tbody id="tests">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/resources/js/tests.js"></script>
+</body>
+</html>

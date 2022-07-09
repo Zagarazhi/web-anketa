@@ -11,12 +11,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ru.zagarazhi.entities.dto.AnsweredTestDto;
 import ru.zagarazhi.entities.dto.ResultsDto;
+import ru.zagarazhi.entities.dto.TestDto;
 import ru.zagarazhi.entities.dto.TestName;
 
 @RequestMapping("/api/v1")
 public interface TestController {
     @GetMapping("/tests")
     public ResponseEntity<List<TestName>> names();
+
+    @GetMapping("/test/{id}")
+    public ResponseEntity<TestDto> test(@PathVariable long id);
 
     @GetMapping("/results/{id}")
     public ResponseEntity<ResultsDto> results(@PathVariable long id);

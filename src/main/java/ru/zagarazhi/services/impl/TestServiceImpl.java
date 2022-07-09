@@ -77,6 +77,24 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
+    public TestDto findTestByIdNoAnswers(long id) {
+        User user = authCheck();
+        if(user == null) {
+            return null;
+        }
+        Optional<Test> oTest = testRepository.findById(id);
+        if(oTest.isEmpty()){
+            return null;
+        }
+        Test test = oTest.get();
+        if(test.getMaxAttempt() <= getMaxAttempt(test, user)) {
+            return null;
+        }
+        test.getQuestions().stream().forEach(q -> q.setCorrectAnswer(""));
+        return new TestDto(test);
+    }
+
+    @Override
     public ResultsDto results(long id) {
         User user = authCheck();
         if(user == null) {
