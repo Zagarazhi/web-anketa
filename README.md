@@ -19,6 +19,9 @@
 - Логин: test, почта: test@mail.ru, пароль: test (Пользовтель)
 - Логин: temp, почта: temp@mail.ru, пароль: temp (Пользовтель)
 
+# Примечание:
+- В [application.properties](/srs/main/java/ru/zagarazhi/resources/application.properties) необходимо прописать настройки исходящего почтвого сервиса, чтобы включить возможность подверждения по почте пользовтелей
+
 # Используемые технологии:
 1)
  - Java 17
