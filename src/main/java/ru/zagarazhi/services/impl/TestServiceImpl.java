@@ -113,13 +113,17 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public ResultsDto results(long id, long userId) {
-        User user = authCheck();
-        if(user == null) {
+        if(authCheck() == null) {
+            return null;
+        }
+        Optional<User> oUser = userRepository.findById(userId);
+        if(oUser.isEmpty()) {
             return null;
         }
         Optional<Test> oTest = testRepository.findById(id);
         if(oTest.isEmpty()) return null;
         Test test = oTest.get();
+        User user = oUser.get();
         AnsweredTest max = null;
         for(AnsweredTest answeredTest : answeredTestRepository.findByTestAndUser(test, user)) {
             if(max == null || max.getAttempt() < answeredTest.getAttempt()) max = answeredTest;
