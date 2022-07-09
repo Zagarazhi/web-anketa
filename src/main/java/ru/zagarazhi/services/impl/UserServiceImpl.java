@@ -105,7 +105,7 @@ public class UserServiceImpl implements UserService {
         user.setUsername(registration.getUsername());
         user.setEmail(registration.getEmail());
         user.setRating((long) 0);
-        user.setRoles(new HashSet<>(Arrays.asList(Role.ROLE_USER, Role.ROLE_ADMIN)));
+        user.setRoles(new HashSet<>(Arrays.asList(Role.ROLE_USER)));
         user.setPassword(passwordEncoder().encode(registration.getPassword()));
         String randomCode = RandomString.make(64);
         user.setVerificationCode(randomCode);
