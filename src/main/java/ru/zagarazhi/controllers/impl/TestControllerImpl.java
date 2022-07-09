@@ -48,7 +48,7 @@ public class TestControllerImpl implements TestController {
 
     @Override
     public ResponseEntity<TestDto> test(@PathVariable long id) {
-        TestDto test = testService.findTestByIdNoAnswers(id);
+        TestDto test = testService.findTestByIdWithAnswerCheck(id);
         if(test == null) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
         }

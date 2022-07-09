@@ -13,6 +13,6 @@ public interface TestService {
     public ResultsDto results(long id);
     public ResultsDto results(long id, long userId);
     public TestDto findTestById(long id);
-    public TestDto findTestByIdNoAnswers(long id);
+    public TestDto findTestByIdWithAnswerCheck(long id);
     public boolean saveAnswers(AnsweredTestDto answeredTestDto);
 }

@@ -77,7 +77,7 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
-    public TestDto findTestByIdNoAnswers(long id) {
+    public TestDto findTestByIdWithAnswerCheck(long id) {
         User user = authCheck();
         if(user == null) {
             return null;
@@ -154,7 +154,7 @@ public class TestServiceImpl implements TestService {
         AnsweredTest answeredTest = new AnsweredTest();
         answeredTest.setTest(test);
         answeredTest.setUser(user);
-        answeredTest.setAttempt(attempt + 1);
+        answeredTest.setAttempt(attempt);
         
         List<Answer> answers = new ArrayList<>();
         int rating = 0, tempRating = 0;

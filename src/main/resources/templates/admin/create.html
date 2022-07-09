@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" href="../resources/css/form.css" type="form/css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <title>Создание</title>
+</head>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand">Навигация</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-item nav-link active" href="/admin/users">Пользователи</a>
+        <a class="nav-item nav-link active" href="/tests">Тесты</a>
+        <a class="nav-item nav-link" href="#">Создать тест<span class="sr-only">(current)</span></a>
+      </div>
+    </div>
+  </nav>
+<body class="text-center">
+    <div class="container">
+        <div class="row m-1 p-1">
+            <div class="col center-block text-center" id="b">
+                <div id="main">
+                    <label for="name" class="text-info">Название</label><br>
+                    <input type="text" name="name" id="name"></input></br></br>
+                    <label for="attempts" class="text-info">Число попыток</label><br>
+                    <input type="text" name="attempts" id="attempts"></input></br></br>
+                    <label for="question" class="text-info">Вопрос</label><br>
+                    <textarea id="question" name="question" rows="4" cols="50"></textarea></br>
+                    <label for="option" class="text-info">Вариант ответа</label><br>
+                    <input type="checkbox" name="correct" id="correct">Верно</input>
+                    <input type="text" name="option" id="option"></input></br></br>
+                </div>
+                <div class="row">
+                    <button id="qb" onclick="addQuestion();">Добавить вопрос</button>
+                    <button id="ob" onclick="addOption();">Добавить вариант</button>
+                    <button id="sb" onclick="saveTest();">Сохранить тест</button>
+                </div>
+            </div>
+            <div class="col center-block text-center">
+                <h2 class="top-name center-block text-center">Вопросы</h2>
+                <div id="questions" style="width: 600px; height: 1200px; line-height: 3em; overflow-y:auto; padding: 5px;">
+
+            </div>
+        </div>
+    </div>
+    <script src="/resources/js/create.js"></script>
+</body>
+</html>

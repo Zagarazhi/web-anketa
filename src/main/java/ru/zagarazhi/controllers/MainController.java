@@ -22,4 +22,7 @@ public interface MainController {
 
     @GetMapping("/users")
     public String users();
+
+    @GetMapping("/admin/create")
+    public String create();
 }

@@ -47,4 +47,9 @@ public class MainControllerImpl implements MainController{
     public String users() {
         return "users";
     }
+
+    @Override
+    public String create(){
+        return "admin/create";
+    }
 }

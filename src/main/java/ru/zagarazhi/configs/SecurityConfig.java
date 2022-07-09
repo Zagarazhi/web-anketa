@@ -21,7 +21,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        /*
         http
             .csrf()
                 .disable()
@@ -45,8 +44,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
                 .logout()
                 .permitAll()
-                .logoutSuccessUrl("/login"); */
-                http.csrf().disable();
+                .logoutSuccessUrl("/login");
+            http.csrf().disable();
             http.headers().frameOptions().disable(); 
     }
 

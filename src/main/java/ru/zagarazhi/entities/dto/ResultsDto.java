@@ -14,7 +14,7 @@ public class ResultsDto {
     private long rating;
 
     public ResultsDto(AnsweredTest answeredTest) {
-        if(answeredTest.getTest().getMaxAttempt() >= answeredTest.getAttempt()) {
+        if(answeredTest.getTest().getMaxAttempt() <= answeredTest.getAttempt()) {
             this.correctAnswers = answeredTest.getTest().getQuestions().stream().map(q -> q.getCorrectAnswer()).collect(Collectors.toList());
         }
         this.ratings = answeredTest.getAnswers().stream().map(a -> a.getRating()).collect(Collectors.toList());
