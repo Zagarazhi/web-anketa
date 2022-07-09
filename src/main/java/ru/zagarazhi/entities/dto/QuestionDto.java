@@ -10,6 +10,7 @@ import ru.zagarazhi.entities.domain.Question;
 
 @Data
 @NoArgsConstructor
+//ДТО для вопроса
 public class QuestionDto {
     private Long id;
 

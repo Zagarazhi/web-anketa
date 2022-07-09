@@ -10,6 +10,7 @@ import lombok.Data;
 import ru.zagarazhi.entities.domain.User;
 
 @Data
+//Инфо о пользователе для админа
 public class AdminUserInfo {
     private long id;
     private long rating;

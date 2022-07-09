@@ -10,6 +10,7 @@ import ru.zagarazhi.entities.domain.Test;
 
 @Data
 @NoArgsConstructor
+//ДТО для для теста
 public class TestDto {
     private Long id;
 

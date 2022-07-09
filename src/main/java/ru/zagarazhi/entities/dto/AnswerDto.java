@@ -8,6 +8,7 @@ import ru.zagarazhi.entities.domain.Answer;
 
 @Data
 @NoArgsConstructor
+//ДТО для ответа
 public class AnswerDto {
 
     @NotEmpty

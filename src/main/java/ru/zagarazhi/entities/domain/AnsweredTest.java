@@ -9,6 +9,7 @@ import lombok.Data;
 @Entity
 @Data
 @Table(name = "answered_tests")
+//Сущность для теста с ответами
 public class AnsweredTest {
     
     @Id

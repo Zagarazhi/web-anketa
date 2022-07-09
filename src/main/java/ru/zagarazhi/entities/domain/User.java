@@ -12,6 +12,7 @@ import ru.zagarazhi.entities.enums.Role;
 @Entity
 @Data
 @Table(name = "users")
+//Сущность для пользователя
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

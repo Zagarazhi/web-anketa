@@ -7,6 +7,7 @@ import lombok.Data;
 import ru.zagarazhi.entities.domain.AnsweredTest;
 
 @Data
+//ДТО для результатов
 public class ResultsDto {
     private List<String> userAnswers;
     private List<String> correctAnswers;

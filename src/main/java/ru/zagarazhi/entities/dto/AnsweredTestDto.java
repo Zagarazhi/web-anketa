@@ -10,6 +10,7 @@ import ru.zagarazhi.entities.domain.AnsweredTest;
 
 @Data
 @NoArgsConstructor
+//ДТО для теста с ответами
 public class AnsweredTestDto {
 
     @NotEmpty

@@ -9,6 +9,7 @@ import lombok.Data;
 @Entity
 @Data
 @Table(name = "questions")
+//Сущность для вопроса
 public class Question {
     
     @Id

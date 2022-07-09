@@ -4,6 +4,7 @@ import lombok.Data;
 import ru.zagarazhi.entities.domain.Test;
 
 @Data
+//название + id теста
 public class TestName {
     private Long id;
 

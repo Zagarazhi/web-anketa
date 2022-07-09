@@ -7,6 +7,7 @@ import lombok.Data;
 @Entity
 @Data
 @Table(name = "answers")
+//Сущность для ответа
 public class Answer {
     
     @Id
